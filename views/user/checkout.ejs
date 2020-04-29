@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <%- include('../partials/head.ejs') %>
+</head>
+
+<body class="ps-loading">
+    <div class="header--sidebar"></div>
+    <header class="header">
+        <%- include('../partials/header.ejs') %>
+    </header>
+
+    <div class="header-services">
+        <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1"
+            data-owl-duration="1000" data-owl-mousedrag="on">
+            <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+            <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+            <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        </div>
+    </div>
+    <main class="ps-main">
+        <div class="ps-content pt-80 pb-80">
+            <div class="ps-container">
+                <h2>Active Order</h2>
+                <div class="ps-cart-listing">
+                    <table class="table ps-cart__table" style="text-align: center;">
+                        <thead style="font-size: 18px;">
+                            <tr>
+                                <td><b>No</td>
+                                <td><b>Date</b></td>
+                                <td><b>Brand</b></td>
+                                <td><b>Quantity</b></td>
+                                <td><b>Total Price</b></td>
+                                <td><b>Status</b></td>
+                                <td><b>Action</b></td>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <% var x = 0; for(var i = 0; i < results.length; i++) { %>
+                                <% if (results[i].status==0) { %>
+                                <tr id="trans_<%= results[i].trans_id %>">
+                                    <td><%= x+1 %></td>
+                                    <td class="convertDate"><%= results[i].date %></td>
+                                    <td><%= results[i].brand %></td>
+                                    <td><%= results[i].jmlh_galon %></td>
+                                    <td class="convertMoney"><%= results[i].harga_total %></td>
+                                    <td class="text-center">
+                                        <div class="badge badge-warning">On Progress</div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" onclick="confirmCancel('<%= results[i].trans_id %>')">Cancel</button>
+                                        <button class="btn-wide btn btn-success" onclick="finish('<%= results[i].trans_id %>')">Finish</button>
+                                    </td>
+                                </tr>
+                                <% x=x+1 } %>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br><br>
+            <div class="ps-container">
+                <h2 style="color: greenyellow;">Success Order</h2>
+                <div class="ps-cart-listing">
+                    <table class="table ps-cart__table bg-success" style="text-align: center;">
+                        <thead style="font-size: 18px;">
+                            <tr>
+                                <td><b>No</td>
+                                <td><b>Date</b></td>
+                                <td><b>Brand</b></td>
+                                <td><b>Quantity</b></td>
+                                <td><b>Total Price</b></td>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <% var x = 0; for(var i = 0; i < results.length; i++) { %>
+                                <% if (results[i].status==1) { %>
+                                <tr id="trans_<%= results[i].trans_id %>">
+                                    <td><%= x+1 %></td>
+                                    <td class="convertDate"><%= results[i].date %></td>
+                                    <td><%= results[i].brand %></td>
+                                    <td><%= results[i].jmlh_galon %></td>
+                                    <td class="convertMoney"><%= results[i].harga_total %></td>
+                                </tr>
+                                <% x=x+1 } %>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br><br>
+            <div class="ps-container">
+                <h2 style="color: red;">Canceled Order</h2>
+                <div class="ps-cart-listing">
+                    <table class="table ps-cart__table bg-danger" style="text-align: center;">
+                        <thead style="font-size: 18px;">
+                            <tr>
+                                <td><b>No</td>
+                                <td><b>Date</b></td>
+                                <td><b>Brand</b></td>
+                                <td><b>Quantity</b></td>
+                                <td><b>Total Price</b></td>
+                                <td><b>Action</b></td>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <% var x = 0; for(var i = 0; i < results.length; i++) { %>
+                                <% if (results[i].status==-1) { %>
+                                <tr id="trans_<%= results[i].trans_id %>">
+                                    <td><%= x+1 %></td>
+                                    <td class="convertDate"><%= results[i].date %></td>
+                                    <td><%= results[i].brand %></td>
+                                    <td><%= results[i].jmlh_galon %></td>
+                                    <td class="convertMoney"><%= results[i].harga_total %></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger" onClick="showMessage('<%= results[i].failed_msg %>')"><i class="fa fa-envelope"> </i></button>
+                                    </td>
+                                </tr>
+                                <% x=x+1 } %>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <%- include('../partials/footer.ejs') %>
+        </footer>
+        <button id="cancelMessage" data-toggle="modal" data-target="#show_cancel" style="display:none">Click</button>
+        <div class="modal fade" id="show_cancel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cancellation Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                    <p><b>Message : </b></p>
+                    <span id="msg_val"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div id="cancelOrder" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Cancel Order</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="id_cancel" name="id_cancel" class="form-control" style="display: none;">
+                        <div class="form-group">
+                            <label>Reason to cancel the order</label>
+                            <input type="text" id="reason" name="reason" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row" style="padding-left: 20px;padding-right: 20px;">
+                            <button type="button" class="btn btn-danger pull-right" onClick="cancel()">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- JS Library-->
+    <script type="text/javascript" src="plugins/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
+    <script type="text/javascript" src="plugins/owl-carousel/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="plugins/gmap3.min.js"></script>
+    <script type="text/javascript" src="plugins/imagesloaded.pkgd.js"></script>
+    <script type="text/javascript" src="plugins/isotope.pkgd.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="plugins/slick/slick/slick.min.js"></script>
+    <script type="text/javascript" src="plugins/elevatezoom/jquery.elevatezoom.js"></script>
+    <script type="text/javascript" src="plugins/Magnific-Popup/dist/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx39JFH5nhxze1ZydH-Kl8xXM3OK4fvcg&amp;region=GB"></script>
+    <script type="text/javascript" src="plugins/revolution/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/jquery.themepunch.revolution.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.video.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+    <!-- Custom scripts-->
+    <script type="text/javascript" src="js/main.js"></script>
+    <script>
+        function finish(id){
+            $(".ps-loading").removeClass("loaded")
+            $.post( "set_finish",{ id: id })
+            .done(function( res ) {
+                if (parseInt(res.data.changedRows) == 1){
+                    $(".ps-loading").addClass("loaded")
+                    $("#trans_"+id).remove()
+                } else {
+                    $(".ps-loading").addClass("loaded")
+                    alert("Error finish this order")
+                }
+            });
+        }
+        function showMessage(data){
+            $("#msg_val").html(data)
+            $("#cancelMessage").click()
+        }
+
+        function confirmCancel(id){
+            $("#id_cancel").val(id)
+            $("#cancelOrder").modal("show")
+        }
+
+        function cancel(){
+            var id =  $("#id_cancel").val()
+            var reason =  $("#reason").val()
+            if (reason==""){
+                reason = "User has canceled the order"
+            }
+            $("#cancelOrder").modal("hide")
+            $(".ps-loading").removeClass("loaded")
+            $.post( "set_cancel",{ id: id,reason:reason })
+            .done(function( res ) {
+                if (parseInt(res.data.changedRows) == 1){
+                    $(".ps-loading").addClass("loaded")
+                    $("#trans_"+id).remove()
+                } else {
+                    $(".ps-loading").addClass("loaded")
+                    alert("Error cancel this order")
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

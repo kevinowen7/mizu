@@ -1,0 +1,20 @@
+const express = require("express")
+const router = express.Router()
+const userController = require("../controller/userController")
+
+router.get("/", userController.index)
+router.get("/product", userController.product)
+router.get("/product-detail", userController.product_detail)
+router.get("/profile", userController.profile)
+router.get("/edit-profile", userController.edit_profile)
+router.get("/contact-us", userController.contact_us)
+router.get("/cart", userController.cart)
+router.get("/order", userController.order)
+
+router.post("/checkout", userController.checkout)
+router.post("/login", userController.login)
+router.post("/register", userController.register)
+router.post("/set_finish", userController.setFinish)
+router.post("/set_cancel", userController.setCancel)
+router.get("/logout", userController.logout)
+module.exports = router

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <%- include('../partials-admin/head.ejs') %>
+    <title>Login - Mizu</title>
+</head>
+<style>
+    #cover-spin {
+    position:fixed;
+    width:100%;
+    left:0;right:0;top:0;bottom:0;
+    background-color: rgba(255,255,255,0.7);
+    z-index:9999;
+}
+
+@-webkit-keyframes spin {
+	from {-webkit-transform:rotate(0deg);}
+	to {-webkit-transform:rotate(360deg);}
+}
+
+@keyframes spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+
+#cover-spin::after {
+    content:'';
+    display:block;
+    position:absolute;
+    left:48%;top:40%;
+    width:40px;height:40px;
+    border-style:solid;
+    border-color:black;
+    border-top-color:transparent;
+    border-width: 4px;
+    border-radius:50%;
+    -webkit-animation: spin .8s linear infinite;
+    animation: spin .8s linear infinite;
+}
+</style>
+<body style="background-color:rgb(171, 218, 221); ">
+    <div id="cover-spin" style="display: none;"></div>
+    <div class="container" style="padding-top: 150px; padding-left: 200px; padding-right: 200px;">
+
+        <div class=" card ">
+            <div class="card-header ">
+                <h3 style="text-align: center; ">Mizu Login</h3>
+            </div>
+            <div class="card-body ">
+                <form method="POST" action="/admin/login">
+                    <div class="form-group ">
+                        <label class="form-heading ">Email</label>
+                        <input type="email" id="email"  name="email" class="form-control " placeholder="Enter your email " required>
+                    </div>
+                    <div class="form-group ">
+                        <label class="form-heading ">Password</label>
+                        <input type="password" id="password" name="password" class="form-control " placeholder="Enter your password " required>
+                    </div>
+                    <div class="form-group text-center ">
+                        <button class="btn btn-primary ">Login</button>
+                        </br>
+                        </br>
+                        <a href="register">Don't have an account? Register Here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <%- include('../partials-admin/footer.ejs') %>
+</body>
+
+</html>

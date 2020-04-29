@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <%- include('../partials/head.ejs') %>
+    <title>Product Detail - Mizu</title>
+</head>
+
+<body class="ps-loading">
+    <div class="header--sidebar"></div>
+    <header class="header">
+        <%- include('../partials/header.ejs') %>
+    </header>
+
+    <div class="header-services">
+        <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1"
+            data-owl-duration="1000" data-owl-mousedrag="on">
+            <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+            <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+            <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        </div>
+    </div>
+    <main class="ps-main">
+        <div class="test">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ps-product--detail pt-60">
+            <div class="ps-container">
+                <div class="row">
+                    <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                        
+                        <% for(var i = 0; i < results.length; i++) { %>
+                        <div class="ps-product__thumbnail">
+                            <div class="ps-product__image">
+                                <div class="item"><img class="zoom" src="admin/<%= results[i].img_url %>" alt="" data-zoom-image="admin/<%= results[i].img_url %>"></div>
+                            </div>
+                        </div>
+                        <div class="ps-product__thumbnail--mobile">
+                            <div class="ps-product__main-img"><img src="admin/<%= results[i].img_url %>" alt=""></div>
+                        </div>
+                        <div class="ps-product__info">
+                            <h1 class="merek"><%= results[i].brand %></h1>
+                            <p class="ps-product__category">Stock: </p><span class="stock"><%= results[i].stock %></span>
+                            <h3 class="ps-product__price">Rp <span class="convertMoney"><%= results[i].harga %></span></h3>
+                            <div class="ps-product__block ps-product__size">
+                                <h4>ENTER QUANTITY</h4>
+                                <div class="form-group">
+                                    <input id="jumlahGalon" class="form-control" type="number" value="1" min="1" max="<%= results[i].stock %>">
+                                </div>
+                            </div>
+                                <div class="ps-product__shopping"><a class="ps-btn mb-10" onClick="addToCart('<%= results[i].id_galon %>','<%= results[i].img_url %>','<%= results[i].brand %>','<%= results[i].harga %>','<%= results[i].stock %>')">Add to cart<i class="ps-icon-next"></i></a>
+                            </div>
+                            <% } %>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <footer>
+            <%- include('../partials/footer.ejs') %>
+        </footer>
+
+        <div id="outOfStock" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Error</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="id_cancel" name="id_cancel" class="form-control" style="display: none;">
+                        <div class="form-group">
+                            <label>Out Of Stock</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row" style="padding-left: 20px;padding-right: 20px;">
+                            <button type="button" class="btn btn-danger pull-right" data-dismiss="modal" aria-label="Close">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- JS Library-->
+    <script type="text/javascript" src="plugins/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
+    <script type="text/javascript" src="plugins/owl-carousel/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="plugins/gmap3.min.js"></script>
+    <script type="text/javascript" src="plugins/imagesloaded.pkgd.js"></script>
+    <script type="text/javascript" src="plugins/isotope.pkgd.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="plugins/slick/slick/slick.min.js"></script>
+    <script type="text/javascript" src="plugins/elevatezoom/jquery.elevatezoom.js"></script>
+    <script type="text/javascript" src="plugins/Magnific-Popup/dist/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx39JFH5nhxze1ZydH-Kl8xXM3OK4fvcg&amp;region=GB"></script>
+    <script type="text/javascript" src="plugins/revolution/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/jquery.themepunch.revolution.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.video.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+    <!-- Custom scripts-->
+    <script type="text/javascript" src="js/main.js"></script>
+    <script>
+        function addToCart(id,img,brand,harga,q){
+            if (parseInt(q)<parseInt($("#jumlahGalon").val())){
+                $("#outOfStock").modal("show")
+            } else {
+                var storedArray = JSON.parse(localStorage.getItem("storedArray"));
+
+                if (storedArray === null) {
+                    storedArray = [];
+                }
+
+                var obj = {
+                    id: id,
+                    quantity: $("#jumlahGalon").val(),
+                    img:img,
+                    brand:brand,
+                    harga:harga,
+                    harga_total:parseInt(harga)*parseInt($("#jumlahGalon").val())
+                };
+                
+                var v=1
+                for (var i=0;i<storedArray.length;i++){
+                    if (storedArray[i].id==id){
+                        if (parseInt($("#jumlahGalon").val())+parseInt(storedArray[i].quantity)>parseInt(q)){
+                            $("#outOfStock").modal("show")
+                            v=2
+                        } else {
+                            storedArray[i].quantity = parseInt($("#jumlahGalon").val())+parseInt(storedArray[i].quantity)
+                            storedArray[i].harga_total = parseInt(harga)*parseInt($("#jumlahGalon").val())+parseInt(storedArray[i].harga_total)
+                            v=0
+                        }
+                    }
+                }
+                if (v==1){
+                    storedArray.push(obj);
+                }
+                if (v!=2){
+                    localStorage.setItem("storedArray", JSON.stringify(storedArray));
+                    location.reload()
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

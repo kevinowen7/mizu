@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--[if IE 7]><html class="ie ie7"><![endif]-->
+<!--[if IE 8]><html class="ie ie8"><![endif]-->
+<!--[if IE 9]><html class="ie ie9"><![endif]-->
+<html lang="en">
+
+<head>
+    <%- include('../partials/head.ejs') %>
+    <title>Homepage - Mizu</title>
+</head>
+
+
+<body class="ps-loading">
+    <div class="header--sidebar"></div>
+    <header class="header">
+        <%- include('../partials/header.ejs') %>
+    </header>
+    <div class="header-services">
+        <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1"
+            data-owl-duration="1000" data-owl-mousedrag="on">
+            <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+            <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+            <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        </div>
+    </div>
+
+    <main class="ps-main">
+        <div class="ps-mission bg--cover" data-background="images/banner/banner-water.jpg" style="background: url(&quot;images/banner/banner-water.jpg&quot;);">
+            <div class="ps-container">
+                <h3>About Mizu</h3>
+                <h4 style="color: aliceblue;">We provide the water-gallon delivery service right to your place,<br>keeping the water quality and hygiene with trusted process.
+                    <br>Simply order your water gallon by using through our website and we will proceed the order as you wish. You can order for a new water gallon or refill your water gallon.</h4>
+                <br>
+                <hr style="font-weight:bold;"><br>
+                <h4 style="color: lightblue;  font-size: 30px;">Your satisfaction is our pleasure</h3>
+            </div>
+        </div>
+        </div>
+
+        <div class="ps-section--features-product ps-section masonry-root pt-100 pb-100">
+            <div class="ps-container">
+                <div class="ps-section__header mb-50">
+                    <h3 class="ps-section__title" data-mask="products">- Products</h3>
+                </div>
+                <div class="ps-section__content pb-50">
+                    <div class="masonry-wrapper" data-col-md="4" data-col-sm="2" data-col-xs="1" data-gap="30" data-radio="100%">
+                        <div class="ps-masonry">
+                            <div class="grid-sizer"></div>
+                            <% for(var i = 0; i < results.length; i++) { %>
+                                <div class="grid-item buy-new">
+                                    <div class="grid-item__content-wrapper">
+                                        <div class="ps-shoe mb-30">
+                                            <div class="ps-shoe__thumbnail"><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="admin/<%= results[i].img_url %>" alt="">
+                                                <a class="ps-shoe__overlay" href="/product-detail?id=<%= results[i].id_galon %>"></a>
+                                            </div>
+                                            <div class="ps-shoe__content">
+                                                <div class="ps-shoe__variants">
+                                                    <!-- <div class="ps-shoe__variant normal"><img src="images/shoe/2.jpg" alt=""><img src="images/shoe/3.jpg" alt=""><img src="images/shoe/4.jpg" alt=""><img src="images/shoe/5.jpg" alt=""></div> -->
+
+                                                </div>
+                                                <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#"><%= results[i].brand %></a>
+                                                    <p class="ps-shoe__categories">Stock: <%= results[i].stock %></p><span class="stock"></span><span class="ps-shoe__price">Rp <%= results[i].harga %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ps-features pt-80 pb-80">
+            <div class="ps-container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                        <div class="ps-iconbox">
+                            <div class="ps-iconbox__header"><i class="ps-icon-delivery"></i>
+                                <h3>Free shipping</h3>
+                                <p>ON ORDER MORE THAN 2 ITEMS.</p>
+                            </div>
+                            <div class="ps-iconbox__content">
+                                <p>Want to track a package? Find tracking information and order details from Your Orders.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                        <div class="ps-iconbox">
+                            <div class="ps-iconbox__header"><i class="ps-icon-money"></i>
+                                <h3>100% MONEY BACK.</h3>
+                                <p>WHEN DELIVERY IS LATE THAN SCHEDULED.</p>
+                            </div>
+                            <div class="ps-iconbox__content">
+                                <p>You may return most new, unopened items sold within 30 days of delivery for a full refund.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                        <div class="ps-iconbox">
+                            <div class="ps-iconbox__header"><i class="ps-icon-customer-service"></i>
+                                <h3>SUPPORT 24/7.</h3>
+                                <p>WE CAN HELP YOU ONLINE.</p>
+                            </div>
+                            <div class="ps-iconbox__content">
+                                <p>We offer a 24/7 customer hotline so you’re never alone if you have a question.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <%- include('../partials/footer.ejs') %>
+
+    </main>
+    <!-- JS Library-->
+    <script type="text/javascript" src="plugins/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
+    <script type="text/javascript" src="plugins/owl-carousel/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="plugins/gmap3.min.js"></script>
+    <script type="text/javascript" src="plugins/imagesloaded.pkgd.js"></script>
+    <script type="text/javascript" src="plugins/isotope.pkgd.min.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="plugins/slick/slick/slick.min.js"></script>
+    <script type="text/javascript" src="plugins/elevatezoom/jquery.elevatezoom.js"></script>
+    <script type="text/javascript" src="plugins/Magnific-Popup/dist/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx39JFH5nhxze1ZydH-Kl8xXM3OK4fvcg&amp;region=GB"></script>
+    <script type="text/javascript" src="plugins/revolution/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/jquery.themepunch.revolution.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.video.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+    <script type="text/javascript" src="plugins/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+    <!-- Custom scripts-->
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+
+</html>

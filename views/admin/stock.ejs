@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <%- include('../partials-admin/head.ejs') %>
+    <title>Stock - Mizu</title>
+</head>
+<body>
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+        <%- include('../partials-admin/menu.ejs') %>
+            <div class="app-main">
+                <div class="app-sidebar sidebar-shadow">
+                    <div class="app-header__logo">
+                        <div class="logo-src"></div>
+                        <div class="header__pane ml-auto">
+                            <div>
+                                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                                    <span class="hamburger-box">
+                                        <span class="hamburger-inner"></span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-header__mobile-menu">
+                        <div>
+                            <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="app-header__menu">
+                        <span>
+                            <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                                <span class="btn-icon-wrapper">
+                                    <i class="fa fa-ellipsis-v fa-w-6"></i>
+                                </span>
+                            </button>
+                        </span>
+                    </div>    <div class="scrollbar-sidebar">
+                        <div class="app-sidebar__inner">
+                            <ul class="vertical-nav-menu">
+                                <li class="app-sidebar__heading">Dashboard</li>
+                                <li>
+                                    <a href="./dashboard">
+                                        <i class="metismenu-icon pe-7s-rocket"></i>
+                                        Dashboard
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="vertical-nav-menu">
+                                <li class="app-sidebar__heading">Stock</li>
+                                <li>
+                                    <a href="./stock" class="mm-active">
+                                        <i class="metismenu-icon pe-7s-box2"></i>
+                                        Stock
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="vertical-nav-menu">
+                                <li class="app-sidebar__heading">History</li>
+                                <li>
+                                    <a href="./history">
+                                        <i class="metismenu-icon pe-7s-timer"></i>
+                                        History
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>    
+                <div class="app-main__outer">    
+                    <div class="app-main__inner">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12">
+                                <div class="mb-3 card">
+                                    <div class="card-body">
+                                        <div class="row" style="margin-bottom: 20px;padding-left: 15px;padding-right: 15px;">
+                                            <h5 class="card-title">Stock Table</h5>
+                                            <div class="btn-actions-pane-right">
+                                                <div role="group" class="btn-group-sm btn-group">
+                                                    <button class="active btn btn-primary" data-toggle="modal" data-target="#addNew">Add New</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <table id="stock_table" class="mb-0 table" style="text-align: center;">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Brand</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Image</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <% for(var i = 0; i < results.length; i++) { %>
+                                            <tr>
+                                                <th scope="row"><%= i+1 %></th>
+                                                <td><%= results[i].brand %></td>
+                                                <td><%= results[i].stock %></td>
+                                                <td class="convertMoney"><%= results[i].harga %></td>
+                                                <td><img alt="" title="" width="150px" src="<%= results[i].img_url %>"/></td>
+                                                <td>
+                                                    <a href="javascript:void(0);" class="btn btn-sm btn-info edit" onClick="editStock('<%= results[i].id_galon %>','<%= results[i].brand %>','<%= results[i].stock %>','<%= results[i].harga %>','<%= results[i].img_url %>')">Edit</a>
+                                                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" onClick="deleteStock('<%= results[i].id_galon %>','<%= results[i].brand %>')">Delete</a>
+                                                  </td>
+                                            </tr>
+                                            <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+        </div>
+    </div>
+<!-- Modal Add New -->
+<!-- Modal -->
+<div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Brand</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body" style="padding: 20px;" >
+                    <form class="needs-validation" novalidate="" encType="multipart/form-data" method="POST" action="/admin/stock">
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="validationCustom02">Brand Name</label>
+                                <input type="text" class="form-control" id="validationCustom02" name="brand" placeholder="Brand Name" required="">
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Name.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="validationCustom02">Stock</label>
+                                <input type="number" min="0" class="form-control" id="validationCustom02" name="stock" placeholder="Stock" required="">
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Stock.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="validationCustom02">Price</label>
+                                <input type="text" min="0" class="form-control" id="validationCustom02" name="harga" placeholder="Price" required="">
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Price.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="validationCustom02">Image</label>
+                                <input name="img_url" id="validationCustom02" type="file" class="form-control-file" accept="image/x-png,image/jpeg" required="">
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Image.
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Submit form</button>
+                    </form>
+
+                    <script>
+                        // Example starter JavaScript for disabling form submissions if there are invalid fields
+                        (function() {
+                            'use strict';
+                            window.addEventListener('load', function() {
+                                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                                var forms = document.getElementsByClassName('needs-validation');
+                                // Loop over them and prevent submission
+                                var validation = Array.prototype.filter.call(forms, function(form) {
+                                    form.addEventListener('submit', function(event) {
+                                        if (form.checkValidity() === false) {
+                                            event.preventDefault();
+                                            event.stopPropagation();
+                                        }
+                                        form.classList.add('was-validated');
+                                    }, false);
+                                });
+                            }, false);
+                        })();
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="edit" data-toggle="modal" data-target="#edit_stock" style="display:none">Click</button>
+        <div class="modal fade" id="edit_stock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Stock</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" style="padding: 20px;" >
+                <form id="formEdit" class="needs-validation" novalidate="" encType="multipart/form-data" method="POST" action="/admin/stock_edit">
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="validationCustom02">Brand ID</label>
+                            <input type="text" readonly class="form-control" id="id_brand_edt" name="id_brand_edt" placeholder="Brand Name" required="">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please provide a valid Name.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="validationCustom02">Brand Name</label>
+                            <input readonly type="text" class="form-control" id="brand_edt" name="brand_edt" placeholder="Brand Name" required="">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please provide a valid Name.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="validationCustom02">Stock</label>
+                            <input type="number" min="0" class="form-control" id="stock_edt" name="stock_edt" placeholder="Stock" required="">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please provide a valid Stock.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="validationCustom02">Price</label>
+                            <input type="text" min="0" class="form-control" id="harga_edt" name="harga_edt" placeholder="Price" required="">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please provide a valid Price.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="validationCustom02">Image</label></br>
+                            <a href="javascript:void(0)" onClick="openFileUploader()"><img id="img_url_edt" width="150px"/></a>
+                            <input id="img_url_up" name="img_url_up" type="file" class="form-control-file" style="display:none" accept="image/x-png,image/jpeg">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit form</button>
+                </form>
+
+                <script>
+                    // Example starter JavaScript for disabling form submissions if there are invalid fields
+                    (function() {
+                        'use strict';
+                        window.addEventListener('load', function() {
+                            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                            var forms = document.getElementsByClassName('needs-validation');
+                            // Loop over them and prevent submission
+                            var validation = Array.prototype.filter.call(forms, function(form) {
+                                form.addEventListener('submit', function(event) {
+                                    if (form.checkValidity() === false) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                    }
+                                    form.classList.add('was-validated');
+                                }, false);
+                            });
+                        }, false);
+                    })();
+                </script>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <button id="delete" data-toggle="modal" data-target="#delete_stock" style="display:none">Click</button>
+      <form id="formDelete" method="POST" action="/admin/stock_delete">
+          <div class="modal fade" id="delete_stock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Stock</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <span>Apakah Anda yakin akan menghapus Stock </span><span id="del_value"></span>
+                </div>
+                <div class="form-group" style="display:none">
+                    <input type="number" id="id_brand_delete" name="id_brand_delete" class="form-control" style="display:none" required>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </div>
+          </div>
+      </form>
+    <%- include('../partials-admin/footer.ejs') %>
+    <script>
+        function rem_moneydot(money) {
+	
+            return parseInt(money.split(".").join(""));
+            
+        }
+
+        function get_moneydot(money) {
+            
+            if (isNaN(parseInt(money))) {
+                var convertmoney = "";
+            } else {
+                money = rem_moneydot(money);
+                var convertmoney = money.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+            }
+            return convertmoney;
+            
+        }
+
+        $(".convertMoney").each(function() {
+            $(this).html(get_moneydot($(this).html()))
+        });
+        
+        function openFileUploader(){
+            $("#img_url_up").click()
+        }
+        
+        function editStock(id,nama,stock,harga,img_url){
+          $("#edit").click();
+          
+          //select form
+          $("#id_brand_edt").val(id)
+          $("#brand_edt").val(nama)
+          $("#stock_edt").val(stock)
+          $("#harga_edt").val(harga)
+          $("#img_url_edt").attr("src",img_url)
+        }
+
+        // creates an onchange event listener for all the inputs
+        $('#img_url_up').change(function() {
+            // holds scope for this input
+            var selector = $(this);
+            // selector[0] references the direct element without jQuery since we need to access the files object inside of it
+            if (selector[0].files && selector[0].files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#img_url_edt").attr('src', e.target.result);
+            }
+            reader.readAsDataURL(selector[0].files[0]);
+            }   
+        });
+      
+        function deleteStock(id,name){
+          $("#delete").click();
+          $("#del_value").html(name)
+          //select form
+          $("#id_brand_delete").val(id)
+        }
+    </script>
+</body>
+</html>

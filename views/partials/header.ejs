@@ -1,0 +1,113 @@
+<div class="header__top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12 ">
+                <p>Bandung</p>
+            </div>
+            <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
+                <% if (user==""){ %>
+                    <div class="header__actions"><a data-toggle="modal" data-target="#login">Login & Register</a>
+                <% } else {%>
+                    <div class="header__actions"><a href="/logout">Logout</a>
+                <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="navigation">
+    <div class="container-fluid">
+        <div class="navigation__column left">
+            <div class="header__logo">
+                <a class="ps-logo" href="/"><img src="admin/assets/images/logo.png" alt=""></a>
+            </div>
+        </div>
+        <div class="navigation__column center">
+            <ul class="main-menu menu">
+                <li class="menu-item"><a href="/">Home</a></li>
+                <li class="menu-item"><a href="/product">Product</a></li>
+                <li class="menu-item"><a href="/profile">Profile</a></li>
+                <li class="menu-item"><a href="/order">Order</a></li>
+            </ul>
+        </div>
+        <div class="navigation__column right">
+            <form class="ps-search--header" action="do_action" method="post">
+                <input class="form-control" type="text" placeholder="Search Product…">
+                <button><i class="ps-icon-search"></i></button>
+            </form>
+            <div class="ps-cart"><a class="ps-cart__toggle" href="#"><span><i id="jumlahCart">1</i></span><i class="ps-icon-shopping-cart"></i></a>
+                <div class="ps-cart__listing">
+                    <div id="tab_cart" class="ps-cart__content">
+                    </div>
+                    <div class="ps-cart__total">
+                        <p>Number of items:<span id="totalCart"></span></p>
+                        <p>Item Total:<span id="totalHargaCart" class="convertMoney"></span></p>
+                    </div>
+                    <div class="ps-cart__footer"><a class="ps-btn" href="/cart">Check out<i class="ps-icon-arrow-left"></i></a></div>
+                    
+                    <script type="text/javascript" src="plugins/jquery/dist/jquery.min.js"></script>
+                    <script>
+                        var storedArray = JSON.parse(localStorage.getItem("storedArray"));
+                        var ii=0
+                        for (var i =0;i<storedArray.length-ii;i++){
+                            if (storedArray[i]==""){
+                                storedArray.splice(i,1)
+                                ii=ii+1
+                            }
+                        }
+                        localStorage.setItem("storedArray", JSON.stringify(storedArray));
+
+                        function removeCart(index){
+                            var storedArray = JSON.parse(localStorage.getItem("storedArray"));
+                            $("#cartTab_"+index).remove()
+                            storedArray[index]=""
+                            localStorage.setItem("storedArray", JSON.stringify(storedArray));
+
+                            storedArray = JSON.parse(localStorage.getItem("storedArray"));
+
+                            $("#jumlahCart").html(storedArray.length)
+                            var hargaTotal = 0
+                            var jumlahTotal = 0
+                            var jumlahCart = 0
+                            for (var i =0;i<storedArray.length;i++){
+                                if (storedArray[i]!=""){
+                                    hargaTotal = hargaTotal + parseInt(storedArray[i].harga_total)
+                                    jumlahTotal = jumlahTotal + parseInt(storedArray[i].quantity)
+                                    jumlahCart = jumlahCart +1
+                                }
+                            }
+                            $("#jumlahCart").html(jumlahCart)
+                            $("#totalCart").html(jumlahTotal)
+                            $("#totalHargaCart").html(hargaTotal)
+                        }
+
+                        var hargaTotal = 0
+                        var jumlahTotal = 0
+                        var jumlahCart = 0
+                        for (var i =0;i<storedArray.length;i++){
+                            if (storedArray[i]!=""){
+                                hargaTotal = hargaTotal + parseInt(storedArray[i].harga_total)
+                                jumlahTotal = jumlahTotal + parseInt(storedArray[i].quantity)
+                                jumlahCart = jumlahCart +1
+                                $("#tab_cart").append(`
+                                <div id="cartTab_`+i+`" class="ps-cart-item">
+                                    <a class="ps-cart-item__close" onClick="removeCart(`+i+`)"></a>
+                                    <div class="ps-cart-item__thumbnail">
+                                        <a href="/product-detail?id=`+storedArray[i].id+`"></a><img src="admin/`+storedArray[i].img+`" alt=""></div>
+                                    <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="/product-detail?id=`+storedArray[i].id+`">`+storedArray[i].brand+`</a>
+                                        <p><span>Quantity:<i>`+storedArray[i].quantity+`</i></span><span>Total:<i class="convertMoney">`+storedArray[i].harga_total+`</i></span></p>
+                                    </div>
+                                </div>`)
+
+                            }
+                        }
+                        $("#jumlahCart").html(jumlahCart)
+                        $("#totalCart").html(jumlahTotal)
+                        $("#totalHargaCart").html(hargaTotal)
+                    </script>
+                </div>
+            </div>
+            <div class="menu-toggle"><span></span></div>
+        </div>
+    </div>
+</nav>
